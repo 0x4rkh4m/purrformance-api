@@ -13,8 +13,8 @@ install:
 
 start:
 	@echo "Iniciando el servidor de desarrollo..."
-	poetry run uvicorn src.main:app --reload
-	@echo "Servidor en ejecución en http://localhost:8000"
+	poetry fastapi dev src/main.py
+	@echo "Servidor en ejecución"
 
 test:
 	@echo "Ejecutando pruebas..."
