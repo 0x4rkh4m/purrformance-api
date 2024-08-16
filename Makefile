@@ -2,46 +2,44 @@ PYTHON = poetry run python
 BLACK = poetry run black
 FLAKE8 = poetry run flake8
 TEST = poetry run pytest
+FASTAPI = poetry run fastapi
 CLEAN = find . -type f -name "*.pyc" -delete && find . -type d -name "__pycache__" -delete
 
-.PHONY: install start test lint format clean
+.PHONY: install start test lint format clean security all
 
 install:
-	@echo "Instalando dependencias..."
+	@echo "Installing dependencies..."
 	poetry install
-	@echo "Dependencias instaladas."
+	@echo "Dependencies installed."
 
 start:
-	@echo "Iniciando el servidor de desarrollo..."
-	poetry fastapi dev src/main.py
-	@echo "Servidor en ejecución"
+	@echo "Starting the development server..."
+	$(FASTAPI) dev src/main.py --reload
+	@echo "Server is running."
 
 test:
-	@echo "Ejecutando pruebas..."
+	@echo "Running tests..."
 	$(TEST)
-	@echo "Pruebas completadas."
+	@echo "Tests completed."
 
 lint:
-	@echo "Ejecutando análisis de código con flake8..."
+	@echo "Running code analysis with flake8..."
 	$(FLAKE8) src
-	@echo "Análisis completado."
+	@echo "Code analysis completed."
 
 format:
-	@echo "Formateando el código con black..."
+	@echo "Formatting code with black..."
 	$(BLACK) src
-	@echo "Código formateado."
+	@echo "Code formatted."
 
 clean:
-	@echo "Limpiando archivos generados..."
+	@echo "Cleaning generated files..."
 	$(CLEAN)
-	@echo "Limpieza completada."
+	@echo "Cleanup completed."
 
 security:
-	@echo "Ejecutando análisis de seguridad con bandit..."
+	@echo "Running security analysis with bandit..."
 	poetry run bandit -r src
-	@echo "Análisis de seguridad completado."
+	@echo "Security analysis completed."
 
 all: install lint format test
-
-# Default target
-all
